@@ -1,0 +1,15 @@
+Deliverable C: Write a query to counts the number of duplicates in car table for each company.
+
+
+
+
+with temp as 
+(select * , row_number() over(partition By make , color , owner order by id ) as r
+from car
+)
+
+select make , count(*) as duplicate 
+from temp
+where r <> 1
+group by make 
+having count(*) > 1
